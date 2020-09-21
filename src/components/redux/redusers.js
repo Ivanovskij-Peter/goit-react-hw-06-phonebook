@@ -17,6 +17,16 @@ const filter = (state = '', { type, payload }) => {
   switch (type) {
     case types.FILTER:
       return payload;
+
+    default:
+      return state;
+  }
+};
+const newFilterArr = (state = [], { type, payload }) => {
+  switch (type) {
+    case types.NEW_FILTER_ARR:
+      return payload;
+
     default:
       return state;
   }
@@ -25,4 +35,5 @@ const filter = (state = '', { type, payload }) => {
 export default combineReducers({
   contacts,
   filter,
+  newFilterArr,
 });

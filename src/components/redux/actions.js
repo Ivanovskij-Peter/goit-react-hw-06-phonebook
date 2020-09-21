@@ -14,4 +14,8 @@ const changeFilter = value => ({
   type: types.FILTER,
   payload: value,
 });
-export default { addContact, deleteContact, changeFilter };
+const addFilterArr = data => ({
+  type: types.NEW_FILTER_ARR,
+  payload: data,
+});
+export default { addContact, deleteContact, changeFilter, addFilterArr };

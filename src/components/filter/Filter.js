@@ -2,7 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import actions from '../redux/actions';
 
-function Filter({ filter, getFilterName }) {
+function Filter({ filter, contacts, getFilterName, addFilterArr }) {
+  const FilterName = e => {
+    const inputValue = e.target.value.toLowerCase();
+    const visibleContacts = contacts.filter(el =>
+      el.name.toLowerCase().includes(inputValue),
+    );
+
+    addFilterArr(visibleContacts);
+  };
   return (
     <>
       <input
@@ -15,25 +23,27 @@ function Filter({ filter, getFilterName }) {
         type="text"
         name="filter"
         value={filter}
-        onChange={getFilterName}
+        onChange={FilterName}
         placeholder="find contact"
       ></input>
     </>
   );
 }
 const mapStateToProps = state => {
-  const { filter, contacts } = state.contacts;
-  const normalizedFilter = filter.toLowerCase();
-  const visibleContacts = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(normalizedFilter),
-  );
-  return {
-    contacts: visibleContacts,
-  };
+  return { contacts: state.contacts.contacts };
+
+  // const normalizedFilter = filter.toLowerCase();
+
+  // return {
+  //   contacts: visibleContacts,
+  // };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getFilterName: e => dispatch(actions.changeFilter(e.target.value)),
+  addFilterArr: id => dispatch(actions.addFilterArr(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+// (({ value }) =>
+//     value.toLowerCase().includes(normalizedFilter),
+//   );

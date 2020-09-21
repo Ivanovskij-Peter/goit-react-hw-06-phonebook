@@ -22,7 +22,10 @@ function ContactsItems({ contactsItems, deleteContact }) {
   );
 }
 const mapStateToProps = state => ({
-  contactsItems: state.contacts.contacts,
+  contactsItems:
+    state.contacts.newFilterArr.length > 0
+      ? state.contacts.newFilterArr
+      : state.contacts.contacts,
 });
 const mapDispatchToProps = dispatch => ({
   deleteContact: id => dispatch(actions.deleteContact(id)),

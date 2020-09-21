@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import addContact from '../redux/actions';
+import { connect } from 'react-redux';
 
 class ContactsForm extends Component {
   state = {
@@ -14,7 +16,7 @@ class ContactsForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.getContact({
+    this.props.addContact({
       name: this.state.name,
       id: uuidv4(),
       number: this.state.number,
@@ -75,4 +77,5 @@ class ContactsForm extends Component {
     );
   }
 }
-export default ContactsForm;
+
+export default connect(null, addContact)(ContactsForm);

@@ -2,15 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import actions from '../redux/actions';
 
-function Filter({ filter, contacts, getFilterName, addFilterArr }) {
-  const FilterName = e => {
-    const inputValue = e.target.value.toLowerCase();
-    const visibleContacts = contacts.filter(el =>
-      el.name.toLowerCase().includes(inputValue),
-    );
-
-    addFilterArr(visibleContacts);
-  };
+function Filter({ filter, changeFilter }) {
   return (
     <>
       <input
@@ -23,7 +15,7 @@ function Filter({ filter, contacts, getFilterName, addFilterArr }) {
         type="text"
         name="filter"
         value={filter}
-        onChange={FilterName}
+        onChange={e => changeFilter(e.target.value)}
         placeholder="find contact"
       ></input>
     </>
@@ -31,19 +23,10 @@ function Filter({ filter, contacts, getFilterName, addFilterArr }) {
 }
 const mapStateToProps = state => {
   return { contacts: state.contacts.contacts };
-
-  // const normalizedFilter = filter.toLowerCase();
-
-  // return {
-  //   contacts: visibleContacts,
-  // };
 };
 
-const mapDispatchToProps = dispatch => ({
-  addFilterArr: id => dispatch(actions.addFilterArr(id)),
-});
+const mapDispatchToProps = {
+  changeFilter: actions.changeFilter,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
-// (({ value }) =>
-//     value.toLowerCase().includes(normalizedFilter),
-//   );

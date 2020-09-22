@@ -4,10 +4,17 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import actions from '../redux/actions';
 
-function ContactsItems({ contactsItems, deleteContact }) {
+const filtredArr = (contactsItems, filter) => {
+  return filter
+    ? contactsItems.filter(item =>
+        item.name.toLowerCase().includes(filter.toLowerCase()),
+      )
+    : contactsItems;
+};
+function ContactsItems({ contactsItems, deleteContact, filter }) {
   return (
     <TransitionGroup component="ul" className="list">
-      {contactsItems.map(el => (
+      {filtredArr(contactsItems, filter).map(el => (
         <CSSTransition key={el.id} timeout={300} classNames="list-fade">
           <li key={el.id} className="item">
             <p>{el.name}</p>
@@ -22,10 +29,8 @@ function ContactsItems({ contactsItems, deleteContact }) {
   );
 }
 const mapStateToProps = state => ({
-  contactsItems:
-    state.contacts.newFilterArr.length > 0
-      ? state.contacts.newFilterArr
-      : state.contacts.contacts,
+  contactsItems: state.contacts.contacts,
+  filter: state.contacts.filter,
 });
 const mapDispatchToProps = dispatch => ({
   deleteContact: id => dispatch(actions.deleteContact(id)),

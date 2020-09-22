@@ -4,19 +4,12 @@ import ContactsForm from '../contacts/ContactsForm';
 import ContactsItems from '../contacts/ContactsItems';
 import './PhoneBook.css';
 import { CSSTransition } from 'react-transition-group';
+import { connect } from 'react-redux';
 
 class PhoneBook extends Component {
   state = {
     isExsist: false,
   };
-
-  // filterItems = () => {
-  //   return this.state.filter
-  //     ? this.state.contacts.filter(el =>
-  //         el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
-  //       )
-  //     : this.state.contacts;
-  // };
 
   render() {
     return (
@@ -39,13 +32,21 @@ class PhoneBook extends Component {
           <h2 className="alert">This name is already in contacts!</h2>
         </CSSTransition>
         <ContactsForm />
-        <Filter />
+        <CSSTransition
+          in={this.props.contactsItems.length > 1 || this.props.filter !== ''}
+          timeout={500}
+          unmountOnExit
+        >
+          <Filter />
+        </CSSTransition>
         <ContactsItems />
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  contactsItems: state.contacts.contacts,
+  filter: state.contacts.filter,
+});
 
-export default PhoneBook;
-
-//  this.state.contacts.length > 1 && <Filter />;
+export default connect(mapStateToProps)(PhoneBook);

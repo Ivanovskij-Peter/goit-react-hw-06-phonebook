@@ -1,10 +1,13 @@
-import { createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import reduser from './redusers';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
+import contacts from './redusers';
+const milldeware = [...getDefaultMiddleware(), logger];
 
-const rootReduser = combineReducers({
-  contacts: reduser,
+const store = configureStore({
+  reducer: {
+    contacts: contacts,
+  },
+  milldeware,
+  devTools: process.env.NODE_ENV === 'development',
 });
-
-const store = createStore(rootReduser, composeWithDevTools());
 export default store;

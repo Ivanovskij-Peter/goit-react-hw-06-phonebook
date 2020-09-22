@@ -17,7 +17,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import contacts from './redusers';
 
-const midlleware = [
+const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -38,7 +38,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  midlleware,
+  middleware,
   devTools: process.env.NODE_ENV === 'development',
 });
 const persistor = persistStore(store);
